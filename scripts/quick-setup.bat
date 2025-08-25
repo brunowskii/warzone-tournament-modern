@@ -2,21 +2,62 @@
 chcp 65001 >nul
 echo 🚀 Quick Setup - Warzone Tournament System
 
+REM Check if Node.js is installed
+where node >nul 2>nul
+if %errorlevel% neq 0 (
+    echo ❌ Node.js is not installed. Please install Node.js 18+ first.
+    echo Download from: https://nodejs.org/
+    pause
+    exit /b 1
+)
+
+echo ✅ Node.js found
+
 echo 📦 Installing dependencies...
 call npm install
+if %errorlevel% neq 0 (
+    echo ❌ Failed to install dependencies
+    pause
+    exit /b 1
+)
+echo ✅ Dependencies installed
 
 echo 🔧 Setting up database...
 call npx prisma generate
+if %errorlevel% neq 0 (
+    echo ❌ Failed to generate Prisma client
+    pause
+    exit /b 1
+)
+
 call npx prisma db push
+if %errorlevel% neq 0 (
+    echo ❌ Failed to push database schema
+    pause
+    exit /b 1
+)
+echo ✅ Database setup complete
 
 echo 🌱 Seeding database...
 call npm run db:seed
+if %errorlevel% neq 0 (
+    echo ❌ Failed to seed database
+    pause
+    exit /b 1
+)
+echo ✅ Database seeded
 
 echo 🏗️ Building application...
 call npm run build
+if %errorlevel% neq 0 (
+    echo ❌ Failed to build application
+    pause
+    exit /b 1
+)
+echo ✅ Application built
 
 echo.
-echo ✅ Setup completed! Your app is ready for deployment.
+echo 🎉 Setup completed successfully!
 echo.
 echo 📝 Add these environment variables to Vercel:
 echo DATABASE_URL=postgresql://postgres:Veronapressanac5!@db.giwlzcfqivutenqemehz.supabase.co:5432/postgres
