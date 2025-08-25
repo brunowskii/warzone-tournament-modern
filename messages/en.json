@@ -1,0 +1,274 @@
+{
+  "navigation": {
+    "home": "Home",
+    "tournaments": "Tournaments",
+    "leaderboard": "Leaderboard",
+    "login": "Login"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "tournaments": "Tournaments",
+    "leaderboard": "Leaderboard",
+    "settings": "Settings",
+    "admin": "Admin Panel",
+    "manager": "Manager Panel",
+    "team": "Team Panel",
+    "audit": "Audit Log",
+    "obs": "OBS Integration",
+    "review": "Match Review"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "role": {
+      "admin": "Administrator",
+      "manager": "Manager",
+      "team": "Team"
+    },
+    "errors": {
+      "invalidCredentials": "Invalid email or password",
+      "emailRequired": "Email is required",
+      "passwordRequired": "Password is required"
+    }
+  },
+  "tournament": {
+    "create": "Create Tournament",
+    "createNew": "Create New Tournament",
+    "edit": "Edit Tournament",
+    "delete": "Delete Tournament",
+    "name": "Tournament Name",
+    "namePlaceholder": "Enter tournament name",
+    "gameMode": "Game Mode",
+    "selectGameMode": "Select game mode",
+    "teamFormat": "Team Format",
+    "selectTeamFormat": "Select team format",
+    "configuration": "Configuration",
+    "maxTeams": "Max Teams",
+    "maxPlayers": "Max Players",
+    "teamSize": "Team Size",
+    "matches": "Matches",
+    "numberOfMatches": "Number of Matches",
+    "obsTheme": "OBS Theme",
+    "topFraggerEnabled": "Enable Top Fragger",
+    "fillRequiredFields": "Please fill in all required fields",
+    "createdSuccessfully": "Tournament created successfully",
+    "creationError": "Failed to create tournament",
+    "updatedSuccessfully": "Tournament updated successfully",
+    "updateError": "Failed to update tournament",
+    "code": "Tournament Code",
+    "codeCopied": "Tournament code copied to clipboard",
+    "obsUrlCopied": "OBS URL copied to clipboard",
+    "status": "Status",
+    "startDate": "Start Date",
+    "startTime": "Start Time",
+    "settings": "Tournament Settings",
+    "lobbies": "Number of Lobbies",
+    "slotsPerLobby": "Slots per Lobby",
+    "totalMatches": "Total Matches",
+    "countedMatches": "Counted Matches",
+    "status": {
+      "pending": "Pending",
+      "active": "Active",
+      "completed": "Completed",
+      "archived": "Archived"
+    },
+    "type": {
+      "ritorno": "Ritorno",
+      "br": "Battle Royale"
+    },
+    "actions": {
+      "start": "Start Tournament",
+      "end": "End Tournament",
+      "archive": "Archive Tournament",
+      "restore": "Restore Tournament"
+    },
+    "errors": {
+      "nameRequired": "Tournament name is required",
+      "invalidSettings": "Invalid tournament settings"
+    }
+  },
+  "team": {
+    "create": "Create Team",
+    "edit": "Edit Team",
+    "delete": "Delete Team",
+    "name": "Team Name",
+    "code": "Team Code",
+    "lobby": "Lobby",
+    "playerName": "Player Name",
+    "clanName": "Clan Name",
+    "bulkCreate": "Bulk Create Teams",
+    "generateCodes": "Generate Team Codes",
+    "actions": {
+      "assignLobby": "Assign to Lobby",
+      "viewStats": "View Statistics"
+    },
+    "errors": {
+      "nameRequired": "Team name is required",
+      "codeRequired": "Team code is required",
+      "codeExists": "Team code already exists"
+    },
+    "stats": "Team Statistics"
+  },
+  "match": {
+    "submit": "Submit Match",
+    "edit": "Edit Match",
+    "delete": "Delete Match",
+    "position": "Position",
+    "kills": "Kills",
+    "score": "Score",
+    "status": "Status",
+    "photos": "Photos",
+    "submittedAt": "Submitted At",
+    "reviewedAt": "Reviewed At",
+    "rejectionReason": "Rejection Reason",
+    "status": {
+      "pending": "Pending Review",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "viewPhotos": "View Photos"
+    },
+    "errors": {
+      "positionRequired": "Position is required",
+      "killsRequired": "Kills are required",
+      "photosRequired": "At least 2 photos are required",
+      "maxPhotos": "Maximum 5 photos allowed"
+    },
+    "submitNew": "Submit New Match",
+    "submittedSuccessfully": "Match submitted successfully and is pending review",
+    "submissionError": "Failed to submit match",
+    "pendingReviews": "Pending Reviews",
+    "noPendingReviews": "No pending reviews",
+    "reviewSubmission": "Review Submission",
+    "rejectionReasonPlaceholder": "Enter reason for rejection...",
+    "approveSuccess": "Match approved successfully",
+    "rejectSuccess": "Match rejected successfully",
+    "reviewError": "Failed to review match",
+    "evidenceHelp": "Upload 2-5 evidence files (screenshots/videos)",
+    "history": "Match History",
+    "noMatches": "No matches played yet",
+    "matches": "Matches"
+  },
+  "scoring": {
+    "position": "Position",
+    "kills": "Kills",
+    "score": "Score",
+    "multiplier": "Multiplier",
+    "total": "Total Score",
+    "bestMatches": "Best Matches",
+    "adjustments": "Adjustments",
+    "finalScore": "Final Score",
+    "rank": "Rank",
+    "leaderboard": "Leaderboard",
+    "export": "Export Leaderboard",
+    "adjustments": {
+      "penalty": "Penalty",
+      "reward": "Reward",
+      "crash": "Crash Compensation"
+    }
+  },
+  "fileUpload": {
+    "dragDrop": "Drag and drop files here",
+    "orClick": "or click to browse",
+    "uploading": "Uploading...",
+    "uploaded": "Uploaded successfully",
+    "error": "Upload failed",
+    "validation": {
+      "fileType": "Invalid file type",
+      "fileSize": "File too large",
+      "maxFiles": "Too many files"
+    }
+  },
+  "realtime": {
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "reconnecting": "Reconnecting...",
+    "connectionLost": "Connection lost",
+    "connectionRestored": "Connection restored"
+  },
+  "audit": {
+    "log": "Audit Log",
+    "action": "Action",
+    "details": "Details",
+    "performedBy": "Performed By",
+    "timestamp": "Timestamp",
+    "viewLog": "View Audit Log",
+    "export": "Export Log"
+  },
+  "obs": {
+    "overlay": "OBS Overlay",
+    "minimal": "Minimal",
+    "compact": "Compact",
+    "leaderboard": "Leaderboard",
+    "full": "Full",
+    "theme": "Theme",
+    "dark": "Dark",
+    "light": "Light",
+    "transparent": "Transparent",
+    "refreshRate": "Refresh Rate",
+    "url": "Overlay URL",
+    "copyUrl": "Copy URL",
+    "generateQR": "Generate QR Code"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "loading": "Loading...",
+    "creating": "Creating...",
+    "saving": "Saving...",
+    "copied": "Copied!",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "settings": "Settings",
+    "help": "Help",
+    "about": "About",
+    "switch": "Switch",
+    "hide": "Hide",
+    "noData": "No data available",
+    "to": "to",
+    "start": "Start",
+    "uploading": "Uploading..."
+  },
+  "errors": {
+    "general": "Something went wrong",
+    "network": "Network error",
+    "unauthorized": "Unauthorized",
+    "forbidden": "Forbidden",
+    "notFound": "Not found",
+    "validation": "Validation error",
+    "server": "Server error"
+  },
+  "success": {
+    "saved": "Saved successfully",
+    "deleted": "Deleted successfully",
+    "created": "Created successfully",
+    "updated": "Updated successfully",
+    "uploaded": "Uploaded successfully",
+    "submitted": "Submitted successfully",
+    "tournamentCreated": "Tournament Created",
+    "tournamentUpdated": "Tournament Updated"
+  }
+}
