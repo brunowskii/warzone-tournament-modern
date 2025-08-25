@@ -14,11 +14,11 @@
     "test": "vitest",
     "test:e2e": "playwright test",
     "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
-    "db:push": "prisma db push",
     "db:reset": "prisma migrate reset",
+    "deploy": "npm run db:generate && npm run db:push && npm run db:seed && npm run build",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
