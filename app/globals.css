@@ -1,0 +1,288 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Warzone Theme Colors - Cyan Ice & Green */
+    --warzone-cyan: 180 100% 50%; /* Cyan Ice - Primary */
+    --warzone-cyan-glow: 180 100% 60%; /* Cyan Ice Glow */
+    --warzone-green: 120 100% 40%; /* Green - Secondary */
+    --warzone-green-glow: 120 100% 50%; /* Green Glow */
+    
+    /* Metallic Dark Theme */
+    --background: 220 15% 8%;
+    --foreground: 180 100% 95%;
+    --card: 220 15% 12%;
+    --card-foreground: 180 100% 95%;
+    --popover: 220 15% 12%;
+    --popover-foreground: 180 100% 95%;
+    --primary: 180 100% 50%;
+    --primary-foreground: 220 15% 8%;
+    --secondary: 120 100% 40%;
+    --secondary-foreground: 220 15% 8%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 180 100% 70%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 220 15% 8%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 220 15% 8%;
+    --border: 180 100% 30%;
+    --input: 220 15% 15%;
+    --ring: 180 100% 50%;
+    --radius: 0.5rem;
+    
+    /* Warzone HUD Colors */
+    --hud-gold: 45 100% 60%;
+    --hud-silver: 0 0% 85%;
+    --hud-bronze: 25 100% 55%;
+    --hud-warning: 30 100% 60%;
+    --hud-success: 120 100% 50%;
+    --hud-danger: 0 100% 60%;
+    
+    /* Metallic Textures */
+    --metallic-gradient: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.1) 100%);
+    --cyan-glow: 0 0 20px rgba(0, 255, 255, 0.5);
+    --green-glow: 0 0 20px rgba(0, 255, 0, 0.5);
+    
+    /* Leaderboard colors - customizable by admin */
+    --leaderboard-gold: 45 100% 60%;
+    --leaderboard-silver: 0 0% 85%;
+    --leaderboard-bronze: 25 100% 55%;
+  }
+
+  .dark {
+    --background: 220 15% 8%;
+    --foreground: 180 100% 95%;
+    --card: 220 15% 12%;
+    --card-foreground: 180 100% 95%;
+    --popover: 220 15% 12%;
+    --popover-foreground: 180 100% 95%;
+    --primary: 180 100% 50%;
+    --primary-foreground: 220 15% 8%;
+    --secondary: 120 100% 40%;
+    --secondary-foreground: 220 15% 8%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 180 100% 70%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 220 15% 8%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 220 15% 8%;
+    --border: 180 100% 30%;
+    --input: 220 15% 15%;
+    --ring: 180 100% 50%;
+    
+    /* Dark mode leaderboard colors */
+    --leaderboard-gold: 45 100% 60%;
+    --leaderboard-silver: 0 0% 85%;
+    --leaderboard-bronze: 25 100% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Rajdhani', sans-serif;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+  }
+  
+  /* Warzone HUD Typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  
+  /* Glowing text effects */
+  .text-cyan-glow {
+    text-shadow: 0 0 10px hsl(var(--warzone-cyan)), 0 0 20px hsl(var(--warzone-cyan)), 0 0 30px hsl(var(--warzone-cyan));
+  }
+  
+  .text-green-glow {
+    text-shadow: 0 0 10px hsl(var(--warzone-green)), 0 0 20px hsl(var(--warzone-green)), 0 0 30px hsl(var(--warzone-green));
+  }
+  
+  /* Metallic surfaces */
+  .metallic-surface {
+    background: var(--metallic-gradient);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+      0 0 20px rgba(0, 255, 255, 0.1);
+  }
+  
+  /* Cyan border glow */
+  .border-cyan-glow {
+    border: 1px solid hsl(var(--warzone-cyan));
+    box-shadow: 0 0 10px hsl(var(--warzone-cyan)), inset 0 0 10px rgba(0, 255, 255, 0.1);
+  }
+  
+  /* Green border glow */
+  .border-green-glow {
+    border: 1px solid hsl(var(--warzone-green));
+    box-shadow: 0 0 10px hsl(var(--warzone-green)), inset 0 0 10px rgba(0, 255, 0, 0.1);
+  }
+}
+
+@layer components {
+  /* Warzone Button Styles */
+  .btn-warzone {
+    @apply relative overflow-hidden bg-gradient-to-r from-cyan-500 to-green-500 text-black font-bold py-3 px-6 rounded-lg;
+    @apply transition-all duration-300 transform hover:scale-105;
+    @apply shadow-lg hover:shadow-cyan-500/50;
+    font-family: 'Orbitron', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  
+  .btn-warzone::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-green-400/20;
+    @apply opacity-0 transition-opacity duration-300;
+  }
+  
+  .btn-warzone:hover::before {
+    @apply opacity-100;
+  }
+  
+  /* Warzone Card Styles */
+  .card-warzone {
+    @apply metallic-surface rounded-lg p-6;
+    @apply transition-all duration-300 transform hover:scale-105;
+    @apply hover:border-cyan-glow;
+  }
+  
+  /* 3D Tilt Effect */
+  .tilt-3d {
+    @apply transition-transform duration-300;
+    transform-style: preserve-3d;
+  }
+  
+  .tilt-3d:hover {
+    transform: perspective(1000px) rotateX(5deg) rotateY(5deg) scale(1.02);
+  }
+  
+  /* Parallax Scrolling */
+  .parallax {
+    @apply transition-transform duration-700;
+  }
+  
+  /* Floating Animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  /* Glow Pulse Animation */
+  @keyframes glow-pulse {
+    0%, 100% { 
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    }
+    50% { 
+      box-shadow: 0 0 40px rgba(0, 255, 255, 0.8), 0 0 60px rgba(0, 255, 255, 0.4);
+    }
+  }
+  
+  .glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+  
+  /* Warzone XP Counter Animation */
+  @keyframes xp-counter {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+  
+  .xp-counter {
+    animation: xp-counter 0.5s ease-out;
+  }
+}
+
+/* Custom leaderboard styles with Warzone theme */
+.leaderboard-row {
+  @apply transition-all duration-200 hover:bg-muted/50;
+  @apply border-l-4 border-transparent;
+}
+
+.leaderboard-row:nth-child(1) {
+  @apply bg-leaderboard-gold/10 border-leaderboard-gold;
+  @apply text-leaderboard-gold font-bold;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.leaderboard-row:nth-child(2) {
+  @apply bg-leaderboard-silver/10 border-leaderboard-silver;
+  @apply text-leaderboard-silver font-semibold;
+  box-shadow: 0 0 15px rgba(192, 192, 192, 0.3);
+}
+
+.leaderboard-row:nth-child(3) {
+  @apply bg-leaderboard-bronze/10 border-leaderboard-bronze;
+  @apply text-leaderboard-bronze font-semibold;
+  box-shadow: 0 0 10px rgba(205, 127, 50, 0.3);
+}
+
+/* Animation for live updates */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.8);
+  }
+}
+
+.live-update {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  .mobile-nav {
+    @apply fixed bottom-0 left-0 right-0 z-50;
+    @apply bg-black/80 backdrop-blur-md border-t border-cyan-500/30;
+  }
+  
+  .mobile-card {
+    @apply mx-4 mb-4;
+    @apply transform transition-transform duration-300;
+  }
+  
+  .mobile-card:active {
+    @apply scale-95;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, hsl(var(--warzone-cyan)), hsl(var(--warzone-green)));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, hsl(var(--warzone-cyan-glow)), hsl(var(--warzone-green-glow)));
+}
