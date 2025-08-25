@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "navigation": {
     "home": "Home",
@@ -246,3 +247,253 @@
     "submitted": "Inviato con successo"
   }
 }
+=======
+{
+  "navigation": {
+    "home": "Home",
+    "tournaments": "Tornei",
+    "leaderboard": "Classifica",
+    "login": "Accedi"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "tournaments": "Tornei",
+    "leaderboard": "Classifica",
+    "settings": "Impostazioni",
+    "admin": "Pannello Admin",
+    "manager": "Pannello Manager",
+    "team": "Pannello Squadra",
+    "audit": "Log Audit",
+    "obs": "Integrazione OBS",
+    "review": "Revisione Partita"
+  },
+  "auth": {
+    "login": "Accedi",
+    "logout": "Esci",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Accedi",
+    "signUp": "Registrati",
+    "role": {
+      "admin": "Amministratore",
+      "manager": "Manager",
+      "team": "Squadra"
+    },
+    "errors": {
+      "invalidCredentials": "Email o password non validi",
+      "emailRequired": "Email richiesta",
+      "passwordRequired": "Password richiesta"
+    }
+  },
+  "tournament": {
+    "create": "Crea Torneo",
+    "edit": "Modifica Torneo",
+    "delete": "Elimina Torneo",
+    "name": "Nome Torneo",
+    "type": "Tipo Torneo",
+    "status": "Stato",
+    "startDate": "Data Inizio",
+    "startTime": "Ora Inizio",
+    "settings": "Impostazioni Torneo",
+    "lobbies": "Numero di Lobby",
+    "slotsPerLobby": "Slot per Lobby",
+    "totalMatches": "Partite Totali",
+    "countedMatches": "Partite Contate",
+    "status": {
+      "pending": "In Attesa",
+      "active": "Attivo",
+      "completed": "Completato",
+      "archived": "Archiviato"
+    },
+    "type": {
+      "ritorno": "Ritorno",
+      "br": "Battle Royale"
+    },
+    "actions": {
+      "start": "Avvia Torneo",
+      "end": "Termina Torneo",
+      "archive": "Archivia Torneo",
+      "restore": "Ripristina Torneo"
+    },
+    "errors": {
+      "nameRequired": "Nome torneo richiesto",
+      "invalidSettings": "Impostazioni torneo non valide"
+    }
+  },
+  "team": {
+    "create": "Crea Squadra",
+    "edit": "Modifica Squadra",
+    "delete": "Elimina Squadra",
+    "name": "Nome Squadra",
+    "code": "Codice Squadra",
+    "lobby": "Lobby",
+    "playerName": "Nome Giocatore",
+    "clanName": "Nome Clan",
+    "bulkCreate": "Crea Squadre in Massa",
+    "generateCodes": "Genera Codici Squadra",
+    "actions": {
+      "assignLobby": "Assegna a Lobby",
+      "viewStats": "Visualizza Statistiche"
+    },
+    "errors": {
+      "nameRequired": "Nome squadra richiesto",
+      "codeRequired": "Codice squadra richiesto",
+      "codeExists": "Codice squadra già esistente"
+    },
+    "stats": "Statistiche Squadra"
+  },
+  "match": {
+    "submit": "Invia Partita",
+    "edit": "Modifica Partita",
+    "delete": "Elimina Partita",
+    "position": "Posizione",
+    "kills": "Uccisioni",
+    "score": "Punteggio",
+    "status": "Stato",
+    "photos": "Foto",
+    "submittedAt": "Inviato il",
+    "reviewedAt": "Revisionato il",
+    "rejectionReason": "Motivo Rifiuto",
+    "status": {
+      "pending": "In Attesa di Revisione",
+      "approved": "Approvato",
+      "rejected": "Rifiutato"
+    },
+    "actions": {
+      "approve": "Approva",
+      "reject": "Rifiuta",
+      "viewPhotos": "Visualizza Foto"
+    },
+    "errors": {
+      "positionRequired": "Posizione richiesta",
+      "killsRequired": "Uccisioni richieste",
+      "photosRequired": "Almeno 2 foto richieste",
+      "maxPhotos": "Massimo 5 foto consentite"
+    },
+    "submitNew": "Invia Nuova Partita",
+    "submittedSuccessfully": "Partita inviata con successo e in attesa di revisione",
+    "submissionError": "Impossibile inviare la partita",
+    "pendingReviews": "Revisioni in Attesa",
+    "noPendingReviews": "Nessuna revisione in attesa",
+    "reviewSubmission": "Revisione Invio",
+    "rejectionReasonPlaceholder": "Inserisci il motivo del rifiuto...",
+    "approveSuccess": "Partita approvata con successo",
+    "rejectSuccess": "Partita rifiutata con successo",
+    "reviewError": "Impossibile revisionare la partita",
+    "evidenceHelp": "Carica 2-5 file di prova (screenshot/video)",
+    "history": "Cronologia Partite",
+    "noMatches": "Nessuna partita giocata ancora",
+    "matches": "Partite"
+  },
+  "scoring": {
+    "position": "Posizione",
+    "kills": "Uccisioni",
+    "score": "Punteggio",
+    "multiplier": "Moltiplicatore",
+    "total": "Punteggio Totale",
+    "bestMatches": "Migliori Partite",
+    "adjustments": "Aggiustamenti",
+    "finalScore": "Punteggio Finale",
+    "rank": "Posizione",
+    "leaderboard": "Classifica",
+    "export": "Esporta Classifica",
+    "adjustments": {
+      "penalty": "Penalità",
+      "reward": "Ricompensa",
+      "crash": "Compensazione Crash"
+    }
+  },
+  "fileUpload": {
+    "dragDrop": "Trascina i file qui",
+    "orClick": "o clicca per sfogliare",
+    "uploading": "Caricamento...",
+    "uploaded": "Caricato con successo",
+    "error": "Caricamento fallito",
+    "validation": {
+      "fileType": "Tipo di file non valido",
+      "fileSize": "File troppo grande",
+      "maxFiles": "Troppi file"
+    }
+  },
+  "realtime": {
+    "connected": "Connesso",
+    "disconnected": "Disconnesso",
+    "reconnecting": "Riconnessione...",
+    "connectionLost": "Connessione persa",
+    "connectionRestored": "Connessione ripristinata"
+  },
+  "audit": {
+    "log": "Log Audit",
+    "action": "Azione",
+    "details": "Dettagli",
+    "performedBy": "Eseguito Da",
+    "timestamp": "Timestamp",
+    "viewLog": "Visualizza Log Audit",
+    "export": "Esporta Log"
+  },
+  "obs": {
+    "overlay": "Overlay OBS",
+    "minimal": "Minimale",
+    "compact": "Compatto",
+    "leaderboard": "Classifica",
+    "full": "Completo",
+    "theme": "Tema",
+    "dark": "Scuro",
+    "light": "Chiaro",
+    "transparent": "Trasparente",
+    "refreshRate": "Frequenza Aggiornamento",
+    "url": "URL Overlay",
+    "copyUrl": "Copia URL",
+    "generateQR": "Genera Codice QR"
+  },
+  "common": {
+    "save": "Salva",
+    "cancel": "Annulla",
+    "delete": "Elimina",
+    "edit": "Modifica",
+    "view": "Visualizza",
+    "loading": "Caricamento...",
+    "error": "Errore",
+    "success": "Successo",
+    "confirm": "Conferma",
+    "yes": "Sì",
+    "no": "No",
+    "close": "Chiudi",
+    "back": "Indietro",
+    "next": "Avanti",
+    "previous": "Precedente",
+    "search": "Cerca",
+    "filter": "Filtra",
+    "sort": "Ordina",
+    "export": "Esporta",
+    "import": "Importa",
+    "refresh": "Aggiorna",
+    "settings": "Impostazioni",
+    "help": "Aiuto",
+    "about": "Informazioni",
+    "switch": "Cambia",
+    "hide": "Nascondi",
+    "noData": "Nessun dato disponibile",
+    "to": "a",
+    "start": "Inizia",
+    "uploading": "Caricamento..."
+  },
+  "errors": {
+    "general": "Qualcosa è andato storto",
+    "network": "Errore di rete",
+    "unauthorized": "Non autorizzato",
+    "forbidden": "Vietato",
+    "notFound": "Non trovato",
+    "validation": "Errore di validazione",
+    "server": "Errore del server"
+  },
+  "success": {
+    "saved": "Salvato con successo",
+    "deleted": "Eliminato con successo",
+    "created": "Creato con successo",
+    "updated": "Aggiornato con successo",
+    "uploaded": "Caricato con successo",
+    "submitted": "Inviato con successo"
+  }
+}
+>>>>>>> c8e86841b3e7d0cc7fe88e64e28a4359afe2840d
