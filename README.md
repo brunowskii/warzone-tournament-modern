@@ -1,5 +1,6 @@
-<<<<<<< HEAD
 # 🎮 Warzone Tournament Portal
+
+**Deployed and Ready!** 🚀
 
 A **next-generation, immersive tournament management platform** for Call of Duty: Warzone, featuring a **cinematic Warzone aesthetic** with **3D interactions**, **real-time updates**, and **professional OBS overlays**.
 
