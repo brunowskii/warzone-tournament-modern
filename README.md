@@ -1,6 +1,6 @@
 # 🎮 Warzone Tournament Portal
 
-**Deployed and Ready!** 🚀
+Note: See `docs/` for Vercel readiness, deploy steps, and smoke tests.
 
 A **next-generation, immersive tournament management platform** for Call of Duty: Warzone, featuring a **cinematic Warzone aesthetic** with **3D interactions**, **real-time updates**, and **professional OBS overlays**.
 
@@ -718,4 +718,3 @@ MIT License - see LICENSE file for details.
 ---
 
 **Built with ❤️ for the Warzone community**
->>>>>>> c8e86841b3e7d0cc7fe88e64e28a4359afe2840d
