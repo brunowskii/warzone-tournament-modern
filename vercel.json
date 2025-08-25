@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
   "version": 2,
   "name": "warzone-tournament-portal",
@@ -49,55 +48,3 @@
     }
   ]
 }
-=======
-{
-  "version": 2,
-  "name": "warzone-tournament-portal",
-  "buildCommand": "npm run build",
-  "installCommand": "npm install",
-  "framework": "nextjs",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
-  "env": {
-    "NEXT_PUBLIC_DEFAULT_LOCALE": "en"
-  },
-  "functions": {
-    "app/api/**/*.ts": {
-      "maxDuration": 30
-    }
-  },
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, PUT, DELETE, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Authorization"
-        }
-      ]
-    }
-  ]
-}
->>>>>>> c8e86841b3e7d0cc7fe88e64e28a4359afe2840d
