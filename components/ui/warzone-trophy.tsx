@@ -7,7 +7,6 @@ import * as THREE from 'three'
 
 function TrophyModel({ ...props }) {
   const group = useRef<THREE.Group>(null)
-  const { nodes, materials } = useGLTF('/models/trophy.glb') as any
 
   // Create metallic material with cyan glow
   const trophyMaterial = useMemo(() => {
@@ -31,10 +30,11 @@ function TrophyModel({ ...props }) {
       <mesh
         castShadow
         receiveShadow
-        geometry={nodes.Trophy.geometry}
         material={trophyMaterial}
         position={[0, 0, 0]}
-      />
+      >
+        <cylinderGeometry args={[0.5, 0.3, 2, 8]} />
+      </mesh>
     </group>
   )
 }

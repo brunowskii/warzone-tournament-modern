@@ -110,6 +110,15 @@
     text-shadow: 0 0 10px hsl(var(--warzone-green)), 0 0 20px hsl(var(--warzone-green)), 0 0 30px hsl(var(--warzone-green));
   }
   
+  /* Font families */
+  .font-orbitron {
+    font-family: 'Orbitron', monospace;
+  }
+  
+  .font-rajdhani {
+    font-family: 'Rajdhani', sans-serif;
+  }
+  
   /* Metallic surfaces */
   .metallic-surface {
     background: var(--metallic-gradient);
