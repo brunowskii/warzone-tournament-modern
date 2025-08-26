@@ -1,13 +1,26 @@
 'use client'
 
-import { useSupabase } from '@/components/supabase-provider'
+import React from 'react'
 import { LoginForm } from '@/components/login-form'
 import { LoadingSpinner } from '@/components/loading-spinner'
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useSupabase()
+  const [userType, setUserType] = React.useState<'admin' | 'manager' | 'team' | null>(null)
+  const [loading, setLoading] = React.useState(true)
 
-  console.log('AuthGuard Debug:', { user, loading })
+  React.useEffect(() => {
+    // Check authentication from localStorage
+    const storedUserType = localStorage.getItem('userType') as 'admin' | 'manager' | 'team' | null
+    const storedUserCode = localStorage.getItem('userCode')
+
+    console.log('AuthGuard Debug:', { storedUserType, storedUserCode })
+
+    if (storedUserType && storedUserCode) {
+      setUserType(storedUserType)
+    }
+
+    setLoading(false)
+  }, [])
 
   if (loading) {
     return (
@@ -20,7 +33,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     )
   }
 
-  if (!user) {
+  if (!userType) {
     console.log('No user found, showing login form')
     return <LoginForm />
   }
