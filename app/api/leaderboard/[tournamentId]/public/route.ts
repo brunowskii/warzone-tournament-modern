@@ -81,7 +81,7 @@ export async function GET(
     // Sort by final score and assign ranks
     leaderboard.sort((a, b) => b.finalScore - a.finalScore)
     leaderboard.forEach((team, index) => {
-      team.rank = index + 1
+      ;(team as any).rank = index + 1
     })
 
     // Get top fragger stats if enabled

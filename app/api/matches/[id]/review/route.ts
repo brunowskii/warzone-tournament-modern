@@ -70,29 +70,37 @@ export async function POST(
 
     // If approved, update player stats
     if (status === 'APPROVED') {
-      await prisma.playerStat.upsert({
+      // Find existing player stat or create new one
+      const existingStat = await prisma.playerStat.findFirst({
         where: {
-          tournamentId_playerName: {
-            tournamentId: match.team.tournamentId,
-            playerName: match.team.name
-          }
-        },
-        update: {
-          totalKills: {
-            increment: match.kills
-          },
-          matchesPlayed: {
-            increment: 1
-          }
-        },
-        create: {
           tournamentId: match.team.tournamentId,
-          playerName: match.team.name,
-          totalKills: match.kills,
-          averageKills: match.kills,
-          matchesPlayed: 1
+          playerName: match.team.name
         }
       })
+
+      if (existingStat) {
+        await prisma.playerStat.update({
+          where: { id: existingStat.id },
+          data: {
+            totalKills: {
+              increment: match.kills
+            },
+            matchesPlayed: {
+              increment: 1
+            }
+          }
+        })
+      } else {
+        await prisma.playerStat.create({
+          data: {
+            tournamentId: match.team.tournamentId,
+            playerName: match.team.name,
+            totalKills: match.kills,
+            averageKills: match.kills,
+            matchesPlayed: 1
+          }
+        })
+      }
     }
 
     return NextResponse.json(updatedMatch)

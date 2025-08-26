@@ -52,6 +52,12 @@ export default function TeamDashboard({ teamCode, tournamentId, onLogout }: Team
   const [playerName, setPlayerName] = useState('')
   const [showFirstTimeSetup, setShowFirstTimeSetup] = useState(false)
 
+  // Tournament settings
+  const maxMatches = 4
+  const countedMatches = 3
+  const tournamentName = "Warzone Championship 2024"
+  const teamName = `Team ${teamCode.substring(0, 3)}`
+
   // Enhanced team data
   const currentTeam = React.useMemo(() => {
     return {
@@ -63,12 +69,6 @@ export default function TeamDashboard({ teamCode, tournamentId, onLogout }: Team
       tournamentId
     }
   }, [teamCode, teamName, clanName, playerName, tournamentId])
-
-  // Tournament settings
-  const maxMatches = 4
-  const countedMatches = 3
-  const tournamentName = "Warzone Championship 2024"
-  const teamName = `Team ${teamCode.substring(0, 3)}`
 
   const totalSubmissions = matches.length + pendingSubmissions.length
   const canAddMatch = totalSubmissions < maxMatches
