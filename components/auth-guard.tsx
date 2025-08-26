@@ -1,8 +1,8 @@
 'use client'
 
-import { useSupabase } from './supabase-provider'
-import { LoginForm } from '../login-form'
-import { LoadingSpinner } from './loading-spinner'
+import { useSupabase } from '@/components/supabase-provider'
+import { LoginForm } from '@/components/login-form'
+import { LoadingSpinner } from '@/components/loading-spinner'
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
   const { user, loading } = useSupabase()
