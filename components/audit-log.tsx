@@ -31,8 +31,6 @@ const mockAuditLogs = [
 ]
 
 export function AuditLog() {
-  const t = useTranslations()
-
   const getActionColor = (action: string) => {
     switch (action) {
       case 'TOURNAMENT_CREATED':
@@ -51,7 +49,7 @@ export function AuditLog() {
       <CardHeader>
         <CardTitle className="flex items-center">
           <Activity className="h-5 w-5 mr-2" />
-          {t('audit.log')}
+          Audit Log
         </CardTitle>
       </CardHeader>
       <CardContent>

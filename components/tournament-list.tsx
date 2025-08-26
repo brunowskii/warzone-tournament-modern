@@ -26,8 +26,6 @@ const mockTournaments = [
 ]
 
 export function TournamentList() {
-  const t = useTranslations()
-
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'ACTIVE':
@@ -47,7 +45,7 @@ export function TournamentList() {
         <h3 className="text-lg font-semibold">Active Tournaments</h3>
         <Button size="sm">
           <Plus className="h-4 w-4 mr-2" />
-          {t('tournament.create')}
+          Create Tournament
         </Button>
       </div>
 

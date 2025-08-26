@@ -1,6 +1,5 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
 import { useSupabase } from './supabase-provider'
 import { Navigation } from './navigation'
 import { Leaderboard } from './leaderboard'
@@ -8,7 +7,6 @@ import { TournamentList } from './tournament-list'
 import { AuditLog } from './audit-log'
 
 export function Dashboard() {
-  const t = useTranslations()
   const { user } = useSupabase()
 
   return (
@@ -20,17 +18,17 @@ export function Dashboard() {
           <div className="lg:col-span-2 space-y-8">
             <div>
               <h1 className="text-3xl font-bold mb-4">
-                {t('nav.dashboard')}
+                Dashboard
               </h1>
               <p className="text-muted-foreground">
                 Welcome back, {user?.email}
               </p>
             </div>
-            
+
             {/* Leaderboard */}
             <div>
               <h2 className="text-2xl font-semibold mb-4">
-                {t('scoring.leaderboard')}
+                Leaderboard
               </h2>
               <Leaderboard />
             </div>
@@ -38,7 +36,7 @@ export function Dashboard() {
             {/* Tournaments */}
             <div>
               <h2 className="text-2xl font-semibold mb-4">
-                {t('nav.tournaments')}
+                Tournaments
               </h2>
               <TournamentList />
             </div>
@@ -49,7 +47,7 @@ export function Dashboard() {
             {/* Audit Log */}
             <div>
               <h2 className="text-2xl font-semibold mb-4">
-                {t('audit.log')}
+                Audit Log
               </h2>
               <AuditLog />
             </div>

@@ -1,6 +1,5 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -73,7 +72,6 @@ const mockLeaderboard: LeaderboardEntry[] = [
 ]
 
 export function Leaderboard() {
-  const t = useTranslations()
   const [isLive, setIsLive] = useState(true)
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>(mockLeaderboard)
 

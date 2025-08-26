@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useTranslations } from 'next-intl'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -27,12 +26,12 @@ export function LoginForm() {
       })
 
       if (error) {
-        toast.error(t('auth.errors.invalidCredentials'))
+        toast.error('Invalid credentials')
       } else {
-        toast.success(t('auth.login'))
+        toast.success('Login successful')
       }
     } catch (error) {
-      toast.error(t('errors.general'))
+      toast.error('An error occurred')
     } finally {
       setLoading(false)
     }
@@ -43,16 +42,16 @@ export function LoginForm() {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl text-center">
-            {t('auth.login')}
+            Login
           </CardTitle>
           <CardDescription className="text-center">
-            {t('nav.dashboard')}
+            Dashboard
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">{t('auth.email')}</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -63,7 +62,7 @@ export function LoginForm() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">{t('auth.password')}</Label>
+              <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -73,7 +72,7 @@ export function LoginForm() {
               />
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? <LoadingSpinner /> : t('auth.signIn')}
+              {loading ? <LoadingSpinner /> : 'Sign In'}
             </Button>
           </form>
         </CardContent>
