@@ -1,0 +1,8 @@
+# Authentication
+NEXTAUTH_SECRET="warzone-tournament-secret-key-2024-secure-random-string-32-chars"
+NEXTAUTH_URL="https://warzone-tournament-modern.vercel.app"
+
+# Application Configuration
+NEXT_PUBLIC_APP_URL="https://warzone-tournament-modern.vercel.app"
+NEXT_PUBLIC_DEFAULT_LOCALE="en"
+NODE_ENV="production"

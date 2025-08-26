@@ -1,13 +1,11 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
 import { useSupabase } from './supabase-provider'
 import { supabase } from '@/lib/supabase'
 import { Button } from './ui/button'
 import { LogOut, Settings, Trophy, Users } from 'lucide-react'
 
 export function Navigation() {
-  const t = useTranslations()
   const { user } = useSupabase()
 
   const handleLogout = async () => {
@@ -29,15 +27,15 @@ export function Navigation() {
           <div className="flex items-center space-x-4">
             <Button variant="ghost" size="sm">
               <Users className="h-4 w-4 mr-2" />
-              {t('nav.tournaments')}
+              Tournaments
             </Button>
             <Button variant="ghost" size="sm">
               <Settings className="h-4 w-4 mr-2" />
-              {t('nav.settings')}
+              Settings
             </Button>
             <Button variant="ghost" size="sm" onClick={handleLogout}>
               <LogOut className="h-4 w-4 mr-2" />
-              {t('auth.logout')}
+              Logout
             </Button>
           </div>
         </div>
