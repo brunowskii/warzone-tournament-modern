@@ -76,7 +76,6 @@ model Team {
   tournament   Tournament @relation(fields: [tournamentId], references: [id])
   members      User[]    @relation("TeamMembers")
   players      Player[]
-  scores       Score[]
   scoreAdjustments ScoreAdjustment[]
   matches      Match[]
   createdAt    DateTime @default(now())
@@ -124,16 +123,7 @@ enum MatchStatus {
   REJECTED
 }
 
-model Score {
-  id       String @id @default(cuid())
-  matchId  String
-  teamId   String
-  kills    Int
-  points   Float
 
-  match    Match @relation(fields: [matchId], references: [id])
-  team     Team  @relation(fields: [teamId], references: [id])
-}
 
 model ScoreAdjustment {
   id        String   @id @default(cuid())
