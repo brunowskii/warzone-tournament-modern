@@ -52,6 +52,18 @@ export default function TeamDashboard({ teamCode, tournamentId, onLogout }: Team
   const [playerName, setPlayerName] = useState('')
   const [showFirstTimeSetup, setShowFirstTimeSetup] = useState(false)
 
+  // Enhanced team data
+  const currentTeam = React.useMemo(() => {
+    return {
+      id: teamCode,
+      code: teamCode,
+      name: teamName,
+      clanName: clanName || teamName,
+      playerName: playerName || 'Player',
+      tournamentId
+    }
+  }, [teamCode, teamName, clanName, playerName, tournamentId])
+
   // Tournament settings
   const maxMatches = 4
   const countedMatches = 3
@@ -60,6 +72,32 @@ export default function TeamDashboard({ teamCode, tournamentId, onLogout }: Team
 
   const totalSubmissions = matches.length + pendingSubmissions.length
   const canAddMatch = totalSubmissions < maxMatches
+
+  // Check if this is first time login (simulate check)
+  useEffect(() => {
+    if (!clanName || !playerName) {
+      setShowFirstTimeSetup(true)
+    }
+  }, [clanName, playerName])
+
+  const saveFirstTimeSetup = () => {
+    if (!clanName.trim() || !playerName.trim()) return
+    setShowFirstTimeSetup(false)
+  }
+
+  const exportImage = async () => {
+    try {
+      // In real app, use html2canvas to export team stats
+      const element = document.getElementById('team-stats')
+      if (!element) return
+
+      // Mock image export functionality
+      alert('Funzionalità di esportazione immagine non ancora implementata')
+    } catch (error) {
+      console.error('Error generating image:', error)
+      alert('Errore durante l\'esportazione dell\'immagine')
+    }
+  }
 
   const addMatch = async () => {
     if (!canAddMatch || kills < 0 || position < 1 || photos.length < 2) return
@@ -136,22 +174,22 @@ export default function TeamDashboard({ teamCode, tournamentId, onLogout }: Team
     })
   }
 
-  // Mock photo upload component
+  // Mock photo upload component with ice-blue theme
   const PhotoUpload = ({ photos, onPhotosChange, maxPhotos, required }: any) => (
     <div className="space-y-2">
-      <label className="block text-cyan-400 mb-2 font-orbitron text-sm">
+      <label className="block text-ice-blue mb-2 font-mono text-sm">
         Screenshots Required ({photos.length}/{maxPhotos})
       </label>
-      <div className="border-2 border-dashed border-cyan-400/30 rounded-lg p-4 text-center">
-        <Upload className="w-8 h-8 mx-auto mb-2 text-cyan-400/60" />
-        <p className="text-cyan-400/60 text-sm">
-          {photos.length === 0 ? 'Click to upload match screenshots' : `${photos.length} files uploaded`}
+      <div className="border-2 border-dashed border-ice-blue/30 rounded-lg p-4 text-center">
+        <Upload className="w-8 h-8 mx-auto mb-2 text-ice-blue/60" />
+        <p className="text-ice-blue/60 text-sm">
+          {photos.length === 0 ? 'Clicca per caricare screenshots' : `${photos.length} file caricati`}
         </p>
         <Button
           type="button"
           variant="outline"
           size="sm"
-          className="mt-2 border-cyan-400/30 text-cyan-400"
+          className="mt-2 border-ice-blue/30 text-ice-blue"
           onClick={() => {
             // Mock file upload
             if (photos.length < maxPhotos) {
@@ -159,11 +197,62 @@ export default function TeamDashboard({ teamCode, tournamentId, onLogout }: Team
             }
           }}
         >
-          {photos.length === 0 ? 'Upload Screenshots' : 'Add More'}
+          {photos.length === 0 ? 'Carica Screenshots' : 'Aggiungi Altri'}
         </Button>
       </div>
     </div>
   )
+
+  // First time setup modal
+  if (showFirstTimeSetup) {
+    return (
+      <div className="min-h-screen p-4 relative z-10 flex items-center justify-center">
+        <GlassPanel className="w-full max-w-md p-6">
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-ice-blue/20 to-ice-blue-dark/20 mb-4 relative">
+              <Users className="w-8 h-8 text-ice-blue" />
+            </div>
+            <h2 className="text-2xl font-bold text-white font-mono">BENVENUTO</h2>
+            <p className="text-ice-blue/80 font-mono text-sm mt-2">
+              Completa la registrazione per {tournamentName}
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <label className="block text-ice-blue mb-2 font-mono text-sm">Tag Clan</label>
+              <input
+                type="text"
+                value={clanName}
+                onChange={(e) => setClanName(e.target.value)}
+                placeholder="Nome della squadra"
+                className="w-full px-4 py-3 bg-black/30 border border-ice-blue/40 rounded-xl text-white placeholder-ice-blue/60 focus:outline-none focus:border-ice-blue font-mono"
+              />
+            </div>
+
+            <div>
+              <label className="block text-ice-blue mb-2 font-mono text-sm">Nome Giocatore</label>
+              <input
+                type="text"
+                value={playerName}
+                onChange={(e) => setPlayerName(e.target.value)}
+                placeholder="Nome in-game o Discord"
+                className="w-full px-4 py-3 bg-black/30 border border-ice-blue/40 rounded-xl text-white placeholder-ice-blue/60 focus:outline-none focus:border-ice-blue font-mono"
+              />
+            </div>
+
+            <button
+              onClick={saveFirstTimeSetup}
+              disabled={!clanName.trim() || !playerName.trim()}
+              className="w-full py-3 bg-gradient-to-r from-ice-blue to-ice-blue-dark text-black font-bold rounded-xl hover:shadow-[0_0_20px_rgba(161,224,255,0.5)] hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none font-mono"
+            >
+              CONTINUA
+            </button>
+          </div>
+        </GlassPanel>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen p-2 sm:p-4 relative z-10 warzone-bg-pattern">
@@ -172,26 +261,26 @@ export default function TeamDashboard({ teamCode, tournamentId, onLogout }: Team
         <GlassPanel className="p-4 sm:p-6 mb-4 sm:mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2 sm:space-x-4">
-              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-cyan-400/20 to-green-400/20 relative">
-                <Users className="w-6 h-6 sm:w-8 sm:h-8 text-cyan-400" />
-                <div className="absolute inset-0 rounded-full bg-cyan-400/10 animate-ping" />
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-ice-blue/20 to-ice-blue-dark/20 relative">
+                <Users className="w-6 h-6 sm:w-8 sm:h-8 text-ice-blue" />
+                <div className="absolute inset-0 rounded-full bg-ice-blue/10 animate-ping" />
               </div>
               <div>
-                <div className="text-cyan-400/80 font-orbitron text-xs sm:text-sm">
+                <div className="text-ice-blue/80 font-mono text-xs sm:text-sm">
                   {tournamentName}
                 </div>
-                <h1 className="text-lg sm:text-3xl font-bold text-white font-orbitron tracking-wider warzone-text-glow">
+                <h1 className="text-lg sm:text-3xl font-bold text-white font-mono tracking-wider">
                   {teamName.toUpperCase()}
                 </h1>
-                <p className="text-cyan-400/80 font-rajdhani text-xs sm:text-base">
-                  Team ID: <span className="text-cyan-400 font-bold">{teamCode.substring(0, 3)}***</span>
+                <p className="text-ice-blue/80 font-mono text-xs sm:text-base">
+                  Team ID: <span className="text-ice-blue font-bold">{teamCode.substring(0, 3)}***</span>
                 </p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="sm:hidden p-2 text-cyan-400 hover:bg-cyan-400/10 rounded-lg transition-colors"
+                className="sm:hidden p-2 text-ice-blue hover:bg-ice-blue/10 rounded-lg transition-colors"
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -216,21 +305,21 @@ export default function TeamDashboard({ teamCode, tournamentId, onLogout }: Team
                   setActiveTab('matches')
                   setMobileMenuOpen(false)
                 }}
-                className={`flex flex-col items-center space-y-1 px-3 py-3 rounded-xl font-orbitron transition-all duration-300 ${
+                className={`flex flex-col items-center space-y-1 px-3 py-3 rounded-xl font-mono transition-all duration-300 ${
                   activeTab === 'matches'
-                    ? 'bg-cyan-400/20 text-cyan-400 border border-cyan-400/50'
-                    : 'text-cyan-400/60 hover:text-cyan-400 hover:bg-cyan-400/10'
+                    ? 'bg-ice-blue/20 text-ice-blue border border-ice-blue/50'
+                    : 'text-ice-blue/60 hover:text-ice-blue hover:bg-ice-blue/10'
                 }`}
               >
                 <Target className="w-4 h-4" />
-                <span className="text-xs">MATCHES</span>
+                <span className="text-xs">PARTITE</span>
               </button>
               <button
                 onClick={() => {
                   setActiveTab('crash')
                   setMobileMenuOpen(false)
                 }}
-                className={`flex flex-col items-center space-y-1 px-3 py-3 rounded-xl font-orbitron transition-all duration-300 ${
+                className={`flex flex-col items-center space-y-1 px-3 py-3 rounded-xl font-mono transition-all duration-300 ${
                   activeTab === 'crash'
                     ? 'bg-orange-500/20 text-orange-400 border border-orange-500/50'
                     : 'text-orange-400/60 hover:text-orange-400 hover:bg-orange-500/10'
@@ -244,7 +333,7 @@ export default function TeamDashboard({ teamCode, tournamentId, onLogout }: Team
                   setActiveTab('report')
                   setMobileMenuOpen(false)
                 }}
-                className={`flex flex-col items-center space-y-1 px-3 py-3 rounded-xl font-orbitron transition-all duration-300 ${
+                className={`flex flex-col items-center space-y-1 px-3 py-3 rounded-xl font-mono transition-all duration-300 ${
                   activeTab === 'report'
                     ? 'bg-red-500/20 text-red-400 border border-red-500/50'
                     : 'text-red-400/60 hover:text-red-400 hover:bg-red-500/10'
@@ -252,6 +341,15 @@ export default function TeamDashboard({ teamCode, tournamentId, onLogout }: Team
               >
                 <Flag className="w-4 h-4" />
                 <span className="text-xs">REPORT</span>
+              </button>
+            </div>
+            <div className="space-y-2">
+              <button
+                onClick={exportImage}
+                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-green-500/20 border border-green-500/50 text-green-400 rounded-lg hover:bg-green-500/30 transition-colors font-mono text-xs"
+              >
+                <ImageIcon className="w-4 h-4" />
+                <span>ESPORTA STATISTICHE</span>
               </button>
             </div>
           </GlassPanel>
@@ -263,18 +361,18 @@ export default function TeamDashboard({ teamCode, tournamentId, onLogout }: Team
             <div className="flex space-x-4">
               <button
                 onClick={() => setActiveTab('matches')}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-orbitron transition-all duration-300 ${
+                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-mono transition-all duration-300 ${
                   activeTab === 'matches'
-                    ? 'bg-cyan-400/20 text-cyan-400 border border-cyan-400/50'
-                    : 'text-cyan-400/60 hover:text-cyan-400 hover:bg-cyan-400/10'
+                    ? 'bg-ice-blue/20 text-ice-blue border border-ice-blue/50'
+                    : 'text-ice-blue/60 hover:text-ice-blue hover:bg-ice-blue/10'
                 }`}
               >
                 <Target className="w-5 h-5" />
-                <span>MATCHES</span>
+                <span>PARTITE</span>
               </button>
               <button
                 onClick={() => setActiveTab('crash')}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-orbitron transition-all duration-300 ${
+                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-mono transition-all duration-300 ${
                   activeTab === 'crash'
                     ? 'bg-orange-500/20 text-orange-400 border border-orange-500/50'
                     : 'text-orange-400/60 hover:text-orange-400 hover:bg-orange-500/10'
@@ -285,14 +383,23 @@ export default function TeamDashboard({ teamCode, tournamentId, onLogout }: Team
               </button>
               <button
                 onClick={() => setActiveTab('report')}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-orbitron transition-all duration-300 ${
+                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-mono transition-all duration-300 ${
                   activeTab === 'report'
                     ? 'bg-red-500/20 text-red-400 border border-red-500/50'
                     : 'text-red-400/60 hover:text-red-400 hover:bg-red-500/10'
                 }`}
               >
                 <Flag className="w-5 h-5" />
-                <span>REPORTS</span>
+                <span>SEGNALAZIONI</span>
+              </button>
+            </div>
+            <div className="flex space-x-3">
+              <button
+                onClick={exportImage}
+                className="flex items-center space-x-2 px-4 py-2 bg-green-500/20 border border-green-500/50 text-green-400 rounded-lg hover:bg-green-500/30 transition-colors font-mono text-sm"
+              >
+                <ImageIcon className="w-4 h-4" />
+                <span>ESPORTA</span>
               </button>
             </div>
           </div>
@@ -303,39 +410,39 @@ export default function TeamDashboard({ teamCode, tournamentId, onLogout }: Team
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {/* Score Input */}
             <GlassPanel className="p-4 sm:p-6">
-              <h2 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6 font-orbitron flex items-center space-x-2">
-                <Target className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />
-                <span>SUBMIT SCORE</span>
+              <h2 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6 font-mono flex items-center space-x-2">
+                <Target className="w-4 h-4 sm:w-5 sm:h-5 text-ice-blue" />
+                <span>INSERISCI PUNTEGGIO</span>
               </h2>
 
               {canAddMatch ? (
                 <div className="space-y-3 sm:space-y-4">
                   <div>
-                    <label className="block text-cyan-400 mb-2 font-orbitron text-sm">Position</label>
+                    <label className="block text-ice-blue mb-2 font-mono text-sm">Posizione</label>
                     <select
                       value={position}
                       onChange={(e) => setPosition(Number(e.target.value))}
                       disabled={isSubmitting}
-                      className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-black/30 border border-cyan-400/40 rounded-xl text-white focus:outline-none focus:border-cyan-400 font-rajdhani disabled:opacity-50 text-sm sm:text-base"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-black/30 border border-ice-blue/40 rounded-xl text-white focus:outline-none focus:border-ice-blue font-mono disabled:opacity-50 text-sm sm:text-base"
                     >
                       {Array.from({ length: 20 }, (_, i) => i + 1).map(num => (
                         <option key={num} value={num}>
-                          {num}° place (x{(DEFAULT_MULTIPLIERS as any)[num] || 1})
+                          {num}° posto (x{(DEFAULT_MULTIPLIERS as any)[num] || 1})
                         </option>
                       ))}
                     </select>
                   </div>
 
                   <div>
-                    <label className="block text-cyan-400 mb-2 font-orbitron text-sm">Kills</label>
-                    <Input
+                    <label className="block text-ice-blue mb-2 font-mono text-sm">Kills</label>
+                    <input
                       type="number"
                       value={kills}
                       onChange={(e) => setKills(Number(e.target.value))}
                       min="0"
                       disabled={isSubmitting}
-                      placeholder="Number of eliminations"
-                      className="bg-black/30 border-cyan-400/40 text-white placeholder-cyan-400/60 focus:border-cyan-400"
+                      placeholder="Numero di eliminazioni"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-black/30 border border-ice-blue/40 rounded-xl text-white placeholder-ice-blue/60 focus:outline-none focus:border-ice-blue font-mono disabled:opacity-50 text-sm sm:text-base"
                     />
                   </div>
 

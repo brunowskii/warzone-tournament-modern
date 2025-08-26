@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Shield, Zap, AlertTriangle, Eye, EyeOff, ArrowLeft, Globe } from 'lucide-react'
 import GlassPanel from '@/components/ui/glass-panel'
 import { Button } from '@/components/ui/button'
@@ -13,6 +13,11 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [globalStatus, setGlobalStatus] = useState(true)
+
+  useEffect(() => {
+    // Check global system status
+    setGlobalStatus(true) // In real app, check actual system status
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -30,165 +35,114 @@ export default function LoginPage() {
       // Admin codes
       if (['MISOKIETI', 'MISOKIETI8'].includes(trimmedPassword.toUpperCase())) {
         console.log('✅ Admin login successful')
-        window.location.href = '/dashboard'
+        window.location.href = '/en/dashboard'
         return
       }
 
       // Manager codes
       if (['Overwatch2025', 'Manager2024'].includes(trimmedPassword)) {
         console.log('✅ Manager login successful')
-        window.location.href = '/dashboard'
+        window.location.href = '/en/dashboard'
         return
       }
 
       // Team codes (6 alphanumeric characters)
       if (/^[A-Z0-9]{6}$/.test(trimmedPassword.toUpperCase())) {
         console.log('✅ Team login successful')
-        window.location.href = '/dashboard'
+        window.location.href = '/en/dashboard'
         return
       }
 
-      setError('Invalid access code. Please check your code and try again.')
+      setError('CODICE NON VALIDO')
     } catch (err) {
       console.error('❌ Login error:', err)
-      setError('Login failed. Please try again.')
+      setError('ERRORE DI SISTEMA')
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen p-4 relative z-10 warzone-bg-pattern">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-green-500/10" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-
-      <div className="relative z-10 max-w-md mx-auto pt-20">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400/20 to-green-400/20 mb-6 relative">
-            <Shield className="w-10 h-10 text-cyan-400 animate-float" />
-            <div className="absolute inset-0 rounded-full bg-cyan-400/10 animate-ping" />
-          </div>
-          <h1 className="text-3xl font-bold text-white mb-2 font-orbitron tracking-wider warzone-text-glow">
-            ACCESS PORTAL
-          </h1>
-          <p className="text-cyan-400/80 font-rajdhani">
-            Enter your access code to continue
-          </p>
-        </div>
-
-        {/* Global Status */}
-        <div className="mb-6">
-          <div className={`flex items-center justify-center space-x-2 p-3 rounded-lg ${
-            globalStatus 
-              ? 'bg-green-500/10 border border-green-500/30' 
-              : 'bg-red-500/10 border border-red-500/30'
-          }`}>
-            <div className={`w-2 h-2 rounded-full ${
-              globalStatus ? 'bg-green-400' : 'bg-red-400'
-            } animate-pulse`} />
-            <span className={`text-sm font-rajdhani ${
+    <div className="min-h-screen flex items-center justify-center p-4 relative z-10">
+      <div className="w-full max-w-md">
+        <Link 
+          href="/"
+          className="mb-4 flex items-center space-x-2 text-ice-blue/60 hover:text-ice-blue transition-colors font-mono text-sm"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Torna ai Tornei</span>
+        </Link>
+        <GlassPanel className="p-6 text-center">
+          <div className="mb-6">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-ice-blue/20 to-ice-blue-dark/20 mb-4 relative">
+              <Shield className="w-8 h-8 text-ice-blue" />
+              <div className="absolute inset-0 rounded-full bg-ice-blue/10 animate-ping" />
+            </div>
+            <h1 className="text-2xl font-bold text-white mb-2 font-mono">
+              ACCESSO
+            </h1>
+            <p className="text-ice-blue/80 text-sm font-mono">
+              Sistema Globale
+            </p>
+            
+            {/* Status sistema globale */}
+            <div className={`mt-3 flex items-center justify-center space-x-2 text-xs font-mono ${
               globalStatus ? 'text-green-400' : 'text-red-400'
             }`}>
-              System Status: {globalStatus ? 'ONLINE' : 'OFFLINE'}
-            </span>
+              <Globe className="w-4 h-4" />
+              <span>{globalStatus ? 'SISTEMA GLOBALE ATTIVO' : 'SISTEMA GLOBALE OFFLINE'}</span>
+            </div>
           </div>
-        </div>
 
-        {/* Login Form */}
-        <GlassPanel className="p-6">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-cyan-400 font-rajdhani">
-                ACCESS CODE
-              </label>
-              <div className="relative">
-                <Input
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your access code..."
-                  className="w-full bg-black/30 border-cyan-400/30 text-white placeholder-gray-500 font-orbitron tracking-wider text-center text-lg focus:border-cyan-400/60 focus:ring-cyan-400/60"
-                  disabled={isLoading || !globalStatus}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-cyan-400/60 hover:text-cyan-400 transition-colors"
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Inserisci codice"
+                className="w-full px-4 py-3 bg-black/40 border border-ice-blue/40 rounded-xl text-white placeholder-ice-blue/60 focus:outline-none focus:border-ice-blue font-mono text-center"
+                disabled={isLoading}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-ice-blue/60 hover:text-ice-blue transition-colors"
+              >
+                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
             </div>
 
             {error && (
-              <div className="flex items-center space-x-2 p-3 bg-red-500/10 border border-red-500/30 rounded-lg animate-shake">
-                <AlertTriangle className="w-4 h-4 text-red-400" />
-                <span className="text-red-400 text-sm font-rajdhani">{error}</span>
+              <div className="text-red-400 text-sm bg-red-500/10 border border-red-500/30 rounded-lg p-3 font-mono">
+                <div className="flex items-center justify-center space-x-2">
+                  <AlertTriangle className="w-4 h-4" />
+                  <span>{error}</span>
+                </div>
               </div>
             )}
 
-            <Button
+            <button
               type="submit"
-              disabled={isLoading || !password.trim() || !globalStatus}
-              className="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-3 font-orbitron tracking-wider text-lg warzone-glow transition-all duration-300"
+              disabled={isLoading || !password.trim()}
+              className="w-full py-3 bg-gradient-to-r from-ice-blue to-ice-blue-dark text-black font-bold rounded-xl hover:shadow-[0_0_20px_rgba(161,224,255,0.5)] hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-mono"
             >
-              {isLoading ? (
-                <div className="flex items-center justify-center space-x-2">
-                  <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                  <span>AUTHENTICATING...</span>
-                </div>
-              ) : (
-                <>
-                  <Zap className="w-5 h-5 mr-2" />
-                  ACCESS SYSTEM
-                </>
-              )}
-            </Button>
+              <div className="flex items-center justify-center space-x-2">
+                <Zap className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
+                <span>{isLoading ? 'ACCESSO...' : 'ACCEDI'}</span>
+              </div>
+            </button>
           </form>
 
-          {/* Code Types Info */}
-          <div className="mt-6 space-y-3">
-            <div className="text-center">
-              <p className="text-xs text-gray-400 font-rajdhani mb-3">ACCESS CODE TYPES</p>
-            </div>
-            <div className="grid grid-cols-1 gap-2 text-xs">
-              <div className="flex items-center justify-between p-2 bg-cyan-400/10 border border-cyan-400/20 rounded">
-                <span className="text-cyan-400 font-rajdhani">ADMIN</span>
-                <span className="text-gray-400 font-orbitron">MISOKIETI, MISOKIETI8</span>
-              </div>
-              <div className="flex items-center justify-between p-2 bg-purple-400/10 border border-purple-400/20 rounded">
-                <span className="text-purple-400 font-rajdhani">MANAGER</span>
-                <span className="text-gray-400 font-orbitron">Overwatch2025, Manager2024</span>
-              </div>
-              <div className="flex items-center justify-between p-2 bg-green-400/10 border border-green-400/20 rounded">
-                <span className="text-green-400 font-rajdhani">TEAM</span>
-                <span className="text-gray-400 font-orbitron">6-digit code</span>
-              </div>
+          <div className="mt-6 text-xs text-ice-blue/50 font-mono">
+            <div>• Admin: Codici amministratore</div>
+            <div>• Gestore: Codice fornito dall'admin</div>
+            <div>• Squadra: Codice fornito dall'organizzatore</div>
+            <div className="mt-2 text-yellow-400 text-xs">
+              ⚠️ Non condividere i tuoi codici di accesso
             </div>
           </div>
         </GlassPanel>
-
-        {/* Footer */}
-        <div className="mt-8 text-center">
-          <Link 
-            href="/"
-            className="inline-flex items-center space-x-2 text-cyan-400/60 hover:text-cyan-400 transition-colors font-rajdhani"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back to Home</span>
-          </Link>
-        </div>
-
-        <div className="mt-6 text-center">
-          <div className="text-xs text-cyan-400/40 font-rajdhani">
-            © 2025 Warzone Tournament System
-          </div>
-          <div className="text-xs text-cyan-400/30 font-rajdhani mt-1">
-            Secure Access Portal v4.0
-          </div>
-        </div>
       </div>
     </div>
   )

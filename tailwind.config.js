@@ -63,19 +63,10 @@ module.exports = {
         'hud-gold': 'hsl(45 100% 60%)',
         'hud-silver': 'hsl(0 0% 85%)',
         'hud-bronze': 'hsl(25 100% 55%)',
-        // Ice theme colors
-        'ice-blue': {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
-        },
+        // Ice theme colors from Warzonedev-main
+        'ice-blue': '#a1e0ff',
+        'ice-blue-dark': '#6acbff',
+        'ice-blue-accent': '#248dbf',
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -85,6 +76,7 @@ module.exports = {
       fontFamily: {
         'orbitron': ['Orbitron', 'monospace'],
         'rajdhani': ['Rajdhani', 'sans-serif'],
+        'mono': ['Orbitron', 'Courier New', 'monospace'],
       },
       keyframes: {
         "accordion-down": {
@@ -115,6 +107,26 @@ module.exports = {
           "0%, 100%": { transform: "translateX(0) rotateZ(0deg)" },
           "10%, 30%, 50%, 70%, 90%": { transform: "translateX(-8px) rotateZ(-2deg)" },
           "20%, 40%, 60%, 80%": { transform: "translateX(8px) rotateZ(2deg)" }
+        },
+        "fadeInUp": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(40px) translateZ(-30px) rotateX(15deg)"
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0) translateZ(0) rotateX(0deg)"
+          }
+        },
+        "pulse-glow": {
+          "0%, 100%": { 
+            boxShadow: "0 0 8px rgba(161, 224, 255, 0.4)",
+            transform: "scaleX(1)"
+          },
+          "50%": { 
+            boxShadow: "0 0 25px rgba(161, 224, 255, 0.7)",
+            transform: "scaleX(1.15)"
+          }
         },
         "live-pulse": {
           "0%, 100%": {
@@ -147,6 +159,8 @@ module.exports = {
         "shake": "shake 0.6s ease-in-out",
         "live-pulse": "live-pulse 2s ease-in-out infinite",
         "demo-pulse": "demo-pulse 2s ease-in-out infinite",
+        "fade-in-up": "fadeInUp 1.2s ease-out",
+        "pulse-glow": "pulse-glow 3s ease-in-out infinite",
       },
     },
   },

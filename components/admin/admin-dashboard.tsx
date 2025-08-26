@@ -184,19 +184,19 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
             <div className="flex items-center space-x-2 sm:space-x-4">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="sm:hidden p-2 text-cyan-400 hover:bg-cyan-400/10 rounded-lg transition-colors"
+                className="sm:hidden p-2 text-ice-blue hover:bg-ice-blue/10 rounded-lg transition-colors"
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
-              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-cyan-400/20 to-green-400/20 relative">
-                <Shield className="w-6 h-6 sm:w-8 sm:h-8 text-cyan-400 animate-float" />
-                <div className="absolute inset-0 rounded-full bg-cyan-400/10 animate-ping" />
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-ice-blue/20 to-ice-blue-dark/20 relative">
+                <Shield className="w-6 h-6 sm:w-8 sm:h-8 text-ice-blue animate-float" />
+                <div className="absolute inset-0 rounded-full bg-ice-blue/10 animate-ping" />
               </div>
               <div>
-                <h1 className="text-lg sm:text-3xl font-bold text-white font-orbitron tracking-wider warzone-text-glow">
+                <h1 className="text-lg sm:text-3xl font-bold text-white font-mono tracking-wider">
                   ADMIN CONTROL
                 </h1>
-                <p className="text-cyan-400/80 font-rajdhani text-xs sm:text-base">
+                <p className="text-ice-blue/80 font-mono text-xs sm:text-base">
                   Tournament Management System
                 </p>
               </div>
@@ -262,10 +262,10 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                     setActiveTab(item.id as any)
                     setMobileMenuOpen(false)
                   }}
-                  className={`flex items-center justify-center space-x-2 px-3 py-3 rounded-xl font-orbitron transition-all duration-300 ${
+                  className={`flex items-center justify-center space-x-2 px-3 py-3 rounded-xl font-mono transition-all duration-300 ${
                     activeTab === item.id
-                      ? 'bg-cyan-400/20 text-cyan-400 border border-cyan-400/50'
-                      : 'text-cyan-400/60 hover:text-cyan-400 hover:bg-cyan-400/10'
+                      ? 'bg-ice-blue/20 text-ice-blue border border-ice-blue/50'
+                      : 'text-ice-blue/60 hover:text-ice-blue hover:bg-ice-blue/10'
                   }`}
                 >
                   <item.icon className="w-4 h-4" />
@@ -283,10 +283,10 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id as any)}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-orbitron transition-all duration-300 whitespace-nowrap ${
+                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-mono transition-all duration-300 whitespace-nowrap ${
                   activeTab === item.id
-                    ? 'bg-cyan-400/20 text-cyan-400 border border-cyan-400/50'
-                    : 'text-cyan-400/60 hover:text-cyan-400 hover:bg-cyan-400/10'
+                    ? 'bg-ice-blue/20 text-ice-blue border border-ice-blue/50'
+                    : 'text-ice-blue/60 hover:text-ice-blue hover:bg-ice-blue/10'
                 }`}
               >
                 <item.icon className="w-5 h-5" />
@@ -301,10 +301,10 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
           <div className="space-y-4 sm:space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               <GlassPanel className="p-4 sm:p-6">
-                <h2 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6 font-orbitron">ACTIVE TOURNAMENTS</h2>
+                <h2 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6 font-mono">ACTIVE TOURNAMENTS</h2>
                 <div className="space-y-3">
                   {activeTournaments.length === 0 ? (
-                    <div className="text-center text-cyan-400/60 font-rajdhani py-8">
+                    <div className="text-center text-ice-blue/60 font-mono py-8">
                       <Trophy className="w-12 h-12 mx-auto mb-4 opacity-50" />
                       <p>No active tournaments</p>
                     </div>
@@ -313,7 +313,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       <Card key={tournament.id} className={`warzone-border transition-all duration-300 ${
                         tournament.isDemo 
                           ? 'bg-purple-500/10 border-purple-500/30' 
-                          : 'bg-black/20 border-cyan-400/20'
+                          : 'bg-black/20 border-ice-blue/20'
                       }`}>
                         <CardContent className="p-4">
                           <div className="flex items-center justify-between">

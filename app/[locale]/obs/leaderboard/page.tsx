@@ -22,6 +22,7 @@ type LeaderboardResponse = {
 
 const themes = {
   dark: 'bg-black/70 text-white',
+  ice: 'bg-[#0a0f1a]/80 text-[#a1e0ff]',
   light: 'bg-white/80 text-black',
   neon: 'bg-[#0a0f0d]/80 text-[#e6fff2]'
 } as const
@@ -30,7 +31,7 @@ export default function OBSLeaderboardOverlay() {
   const params = useSearchParams()
   const tournamentId = params.get('tournamentId') || ''
   const view = params.get('view') || 'leaderboard'
-  const theme = (params.get('theme') || 'dark') as keyof typeof themes
+  const theme = (params.get('theme') || 'ice') as keyof typeof themes
   const refreshMs = Math.max(3000, Number(params.get('refresh') || 5000))
   // Custom brand colours for esports-style overlays
   const brandBg = params.get('bg') || ''
@@ -131,12 +132,22 @@ export default function OBSLeaderboardOverlay() {
   return (
     <div className={overlayClass} style={styleVars}>
       <div className={cn('relative mx-auto', compact ? 'max-w-5xl' : 'max-w-7xl')}>
-        {/* Top stripe */}
-        <div className="absolute inset-x-0 -top-2 h-2" style={{ background: 'var(--obs-stripe, #ff007a)' }} />
+        {/* Top stripe with enhanced ice-blue glow */}
+        <div 
+          className={cn(
+            "absolute inset-x-0 -top-2 h-2",
+            theme === 'ice' && "shadow-[0_0_20px_rgba(161,224,255,0.6)]"
+          )} 
+          style={{ background: 'var(--obs-stripe, #a1e0ff)' }} 
+        />
 
         <header className="flex items-end justify-between mb-4">
           <div>
-            <div className={cn('uppercase tracking-widest font-black leading-none', compact ? 'text-3xl' : 'text-5xl')}>
+            <div className={cn(
+              'uppercase tracking-widest font-black leading-none',
+              theme === 'ice' && 'drop-shadow-[0_0_15px_rgba(161,224,255,0.8)]',
+              compact ? 'text-3xl' : 'text-5xl'
+            )}>
               Leaderboard
             </div>
             <div className={cn('opacity-80', compact ? 'text-xs' : 'text-sm')}>

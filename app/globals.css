@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -429,5 +430,98 @@ button:active {
   body::after {
     animation: none;
   }
+}
+
+/* Ice-blue theme enhancements from Warzonedev-main */
+.ice-decoration::before {
+  content: '❄';
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  color: rgba(161, 224, 255, 0.6);
+  font-size: 1.2em;
+  animation: float 3s ease-in-out infinite;
+}
+
+.weapon-decoration::after {
+  content: '⚔';
+  position: absolute;
+  bottom: -5px;
+  left: -5px;
+  color: rgba(161, 224, 255, 0.4);
+  font-size: 1em;
+  animation: float 4s ease-in-out infinite reverse;
+}
+
+/* Enhanced holographic effects with ice theme */
+.holographic {
+  background: linear-gradient(45deg, 
+    rgba(161, 224, 255, 0.15) 0%,
+    rgba(200, 240, 255, 0.08) 25%,
+    rgba(161, 224, 255, 0.15) 50%,
+    rgba(180, 230, 255, 0.08) 75%,
+    rgba(161, 224, 255, 0.15) 100%
+  );
+  background-size: 300% 300%;
+  animation: holographic-shift 6s ease-in-out infinite;
+}
+
+@keyframes holographic-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Neon text effects with ice theme */
+.neon-text {
+  text-shadow: 
+    0 0 8px rgba(161, 224, 255, 0.6),
+    0 0 15px rgba(161, 224, 255, 0.4),
+    0 0 25px rgba(161, 224, 255, 0.3),
+    0 0 35px rgba(161, 224, 255, 0.15);
+}
+
+/* Enhanced loading states with 3D ice */
+.loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(161, 224, 255, 0.4),
+    transparent
+  );
+  animation: shimmer 2.5s infinite;
+  transform: skewX(-20deg);
+}
+
+/* Performance optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* GPU acceleration for animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* 3D perspective containers */
+.perspective-container {
+  perspective: 1200px;
+  transform-style: preserve-3d;
 }
 
