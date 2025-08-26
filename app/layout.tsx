@@ -1,3 +1,4 @@
+import './globals.css'
 export const metadata = {
   title: 'Warzone Tournament Portal',
   description: 'Modern Warzone tournament system'
