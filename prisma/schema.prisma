@@ -1,4 +1,5 @@
-// Prisma schema for Vercel deployment. Uses Postgres via DATABASE_URL.
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
@@ -9,64 +10,79 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Minimal models required by public leaderboard and core flows
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  role      Role     @default(TEAM)
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  teams     Team[]   @relation("TeamMembers")
+  auditLogs AuditLog[]
+  accessCodes AccessCode[]
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  MANAGER
+  TEAM
+  VIEWER
+}
 
 model Tournament {
   id                String   @id @default(cuid())
   name              String
   code              String   @unique
-  mode              String
-  format            String
-  status            String
+  mode              String   @default("Battle Royale")
+  format            String   @default("Best 3 of 5")
+  status            TournamentStatus @default(PENDING)
+  startDate         DateTime
+  startTime         String
+  endDate           DateTime?
+  maxTeams          Int      @default(20)
+  currentTeams      Int      @default(0)
+  totalMatches      Int      @default(5)
+  countedMatches    Int      @default(3)
   topFraggerEnabled Boolean  @default(false)
   scoringProfile    Json?
-  teams             Team[]
-  playerStats       PlayerStat[]
+  overlayTheme      String   @default("ice")
+  description       String?
+  prizePool         String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+
+  teams       Team[]
+  matches     Match[]
+  logs        AuditLog[]
+  playerStats PlayerStat[]
+  accessCodes AccessCode[]
+}
+
+enum TournamentStatus {
+  PENDING
+  RECRUITING
+  ACTIVE
+  COMPLETED
+  CANCELLED
 }
 
 model Team {
-  id               String            @id @default(cuid())
-  name             String
-  code             String            @unique
-  tournamentId     String
-  tournament       Tournament        @relation(fields: [tournamentId], references: [id])
-  matches          Match[]
+  id           String   @id @default(cuid())
+  name         String
+  code         String   @unique
+  tournamentId String
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  members      User[]    @relation("TeamMembers")
+  players      Player[]
+  scores       Score[]
   scoreAdjustments ScoreAdjustment[]
-  players          Player[]
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
+  matches      Match[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@index([tournamentId])
-}
-
-model Match {
-  id          String   @id @default(cuid())
-  teamId      String
-  team        Team     @relation(fields: [teamId], references: [id])
-  status      MatchStatus @default(PENDING)
-  matchNumber Int      @default(1)
-  createdAt   DateTime @default(now())
-
-  @@index([teamId])
-}
-
-enum MatchStatus {
-  PENDING
-  APPROVED
-  REJECTED
-}
-
-model ScoreAdjustment {
-  id        String   @id @default(cuid())
-  teamId    String
-  team      Team     @relation(fields: [teamId], references: [id])
-  reason    String?
-  amount    Int      @default(0)
-  createdAt DateTime @default(now())
-
-  @@index([teamId])
 }
 
 model Player {
@@ -81,15 +97,130 @@ model Player {
   @@index([teamId])
 }
 
+model Match {
+  id           String   @id @default(cuid())
+  tournamentId String
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  teamId       String
+  team         Team     @relation(fields: [teamId], references: [id])
+  round        Int      @default(1)
+  position     Int
+  kills        Int      @default(0)
+  score        Float    @default(0)
+  status       MatchStatus @default(PENDING)
+  evidence     Evidence[]
+  startTime    DateTime @default(now())
+  endTime      DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([tournamentId])
+  @@index([teamId])
+}
+
+enum MatchStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Score {
+  id       String @id @default(cuid())
+  matchId  String
+  teamId   String
+  kills    Int
+  points   Float
+
+  match    Match @relation(fields: [matchId], references: [id])
+  team     Team  @relation(fields: [teamId], references: [id])
+}
+
+model ScoreAdjustment {
+  id        String   @id @default(cuid())
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id])
+  reason    String?
+  amount    Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([teamId])
+}
+
 model PlayerStat {
   id            String   @id @default(cuid())
   tournamentId  String
   tournament    Tournament @relation(fields: [tournamentId], references: [id])
   playerId      String?
+  playerName    String
   totalKills    Int      @default(0)
   averageKills  Float    @default(0)
+  matchesPlayed Int      @default(0)
   createdAt     DateTime @default(now())
 
   @@index([tournamentId])
 }
 
+model AccessCode {
+  id           String   @id @default(cuid())
+  code         String   @unique
+  type         AccessCodeType
+  tournamentId String?
+  tournament   Tournament? @relation(fields: [tournamentId], references: [id])
+  userId       String?
+  user         User?    @relation(fields: [userId], references: [id])
+  isActive     Boolean  @default(true)
+  expiresAt    DateTime?
+  createdAt    DateTime @default(now())
+
+  @@index([tournamentId])
+  @@index([userId])
+}
+
+enum AccessCodeType {
+  ADMIN
+  MANAGER
+  TEAM
+  VIEWER
+}
+
+model AuditLog {
+  id           String   @id @default(cuid())
+  action       String
+  details      String?
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime @default(now())
+  userId       String?
+  tournamentId String?
+
+  user       User?       @relation(fields: [userId], references: [id])
+  tournament Tournament? @relation(fields: [tournamentId], references: [id])
+  evidence   Evidence[]
+
+  @@index([userId])
+  @@index([tournamentId])
+  @@index([createdAt])
+}
+
+model Evidence {
+  id        String   @id @default(cuid())
+  type      EvidenceType
+  url       String
+  filename  String?
+  size      Int?
+  createdAt DateTime @default(now())
+  auditLogId String?
+  matchId   String?
+
+  auditLog AuditLog? @relation(fields: [auditLogId], references: [id])
+  match    Match?    @relation(fields: [matchId], references: [id])
+
+  @@index([auditLogId])
+  @@index([matchId])
+}
+
+enum EvidenceType {
+  SCREENSHOT
+  VIDEO
+  DOCUMENT
+}

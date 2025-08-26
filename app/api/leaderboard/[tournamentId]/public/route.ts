@@ -1,27 +1,26 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { calculateTeamStats } from '@/lib/scoring'
 
 export async function GET(
-  request: NextRequest,
+  request: Request,
   { params }: { params: { tournamentId: string } }
 ) {
   try {
     const { tournamentId } = params
-    const { searchParams } = new URL(request.url)
-    const preview = searchParams.get('preview') === 'true'
 
-    // Find tournament
-    const tournament = await prisma.tournament.findUnique({
-      where: { id: tournamentId },
+    // Get tournament details
+    const tournament = await prisma.tournament.findFirst({
+      where: {
+        OR: [
+          { id: tournamentId },
+          { code: tournamentId }
+        ]
+      },
       select: {
         id: true,
         name: true,
         code: true,
-        mode: true,
-        format: true,
-        status: true,
-        topFraggerEnabled: true,
+        countedMatches: true,
         scoringProfile: true
       }
     })
@@ -33,95 +32,82 @@ export async function GET(
       )
     }
 
-    // If preview mode, return limited data
-    if (preview) {
-      const teamCount = await prisma.team.count({
-        where: { tournamentId }
-      })
-
-      return NextResponse.json({
-        tournament: {
-          id: tournament.id,
-          name: tournament.name,
-          code: tournament.code,
-          mode: tournament.mode,
-          format: tournament.format,
-          status: tournament.status,
-          topFraggerEnabled: tournament.topFraggerEnabled
-        },
-        preview: {
-          teamCount,
-          hasLeaderboard: teamCount > 0
-        }
-      })
-    }
-
-    // Get teams with their matches
+    // Get all teams for this tournament
     const teams = await prisma.team.findMany({
-      where: { tournamentId },
-      include: {
+      where: { tournamentId: tournament.id },
+      select: {
+        id: true,
+        name: true,
+        code: true,
         matches: {
           where: { status: 'APPROVED' },
-          orderBy: { matchNumber: 'asc' }
+          select: {
+            score: true,
+            createdAt: true
+          },
+          orderBy: { score: 'desc' }
         },
-        scoreAdjustments: true,
-        players: true
-      },
-      orderBy: { name: 'asc' }
+        scoreAdjustments: {
+          select: {
+            amount: true
+          }
+        }
+      }
     })
 
-    // Calculate team stats
-    const teamStats = teams.map(team => {
-      const stats = calculateTeamStats(team.matches, team.scoreAdjustments, tournament.scoringProfile as any)
+    // Calculate team scores
+    const teamScores = teams.map(team => {
+      const bestScores = team.matches
+        .slice(0, tournament.countedMatches)
+        .map(match => match.score)
+      
+      const totalScore = bestScores.reduce((sum, score) => sum + score, 0)
+      const adjustmentTotal = team.scoreAdjustments.reduce((sum, adj) => sum + adj.amount, 0)
+      const finalScore = totalScore + adjustmentTotal
+
       return {
         id: team.id,
         name: team.name,
         code: team.code,
-        ...stats,
-        players: team.players.map(player => ({
-          activisionId: player.activisionId,
-          playerName: player.playerName,
-          isTeamLeader: player.isTeamLeader
-        }))
+        totalScore: finalScore,
+        matchesPlayed: team.matches.length,
+        bestScores: bestScores
       }
     })
 
     // Sort by total score (descending)
-    teamStats.sort((a, b) => b.totalScore - a.totalScore)
+    const sortedTeams = teamScores.sort((a, b) => b.totalScore - a.totalScore)
 
     // Add rank
-    const leaderboard = teamStats.map((team, index) => ({
+    const leaderboard = sortedTeams.map((team, index) => ({
       ...team,
       rank: index + 1
     }))
 
     // Get top fragger stats if enabled
-    let topFraggerStats = null
-    if (tournament.topFraggerEnabled) {
+    let topFraggerStats = []
+    if (tournament.scoringProfile?.topFraggerEnabled) {
       const playerStats = await prisma.playerStat.findMany({
-        where: { tournamentId },
-        orderBy: [
-          { totalKills: 'desc' },
-          { averageKills: 'desc' }
-        ],
-        take: 20 // Top 20 players
+        where: { tournamentId: tournament.id },
+        select: {
+          id: true,
+          playerName: true,
+          totalKills: true,
+          averageKills: true,
+          matchesPlayed: true
+        },
+        orderBy: { totalKills: 'desc' },
+        take: 10
       })
 
-      topFraggerStats = playerStats.map((player, index) => ({
-        ...player,
-        rank: index + 1
-      }))
+      topFraggerStats = playerStats
     }
 
     return NextResponse.json({
       tournament: {
         id: tournament.id,
         name: tournament.name,
-        code: tournament.code,
-        mode: tournament.mode,
-        format: tournament.format,
-        status: tournament.status,
-        topFraggerEnabled: tournament.topFraggerEnabled
+        code: tournament.code
       },
       leaderboard,
       topFraggerStats,

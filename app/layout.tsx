@@ -1,4 +1,6 @@
 import './globals.css'
+import { redirect } from 'next/navigation'
+
 export const metadata = {
   title: 'Warzone Tournament Portal',
   description: 'Modern Warzone tournament system'
@@ -9,10 +11,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  )
+  // Redirect to default locale
+  redirect('/en')
 }
 

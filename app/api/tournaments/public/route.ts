@@ -1,22 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url)
-    const status = searchParams.get('status')
-
-    const where: any = {
-      // Only show non-demo tournaments
-      isDemo: false
-    }
-
-    if (status) {
-      where.status = status
-    }
-
     const tournaments = await prisma.tournament.findMany({
-      where,
       select: {
         id: true,
         name: true,
@@ -24,7 +11,18 @@ export async function GET(request: NextRequest) {
         mode: true,
         format: true,
         status: true,
+        startDate: true,
+        startTime: true,
+        maxTeams: true,
+        currentTeams: true,
+        totalMatches: true,
+        countedMatches: true,
         topFraggerEnabled: true,
+        overlayTheme: true,
+        description: true,
+        prizePool: true,
+        createdAt: true,
+        updatedAt: true,
         _count: {
           select: {
             teams: true
@@ -32,11 +30,18 @@ export async function GET(request: NextRequest) {
         }
       },
       orderBy: [
-        { status: 'asc' }
+        { status: 'asc' }, // ACTIVE first, then RECRUITING, etc.
+        { startDate: 'asc' }
       ]
     })
 
-    return NextResponse.json(tournaments)
+    // Update currentTeams count from the actual team count
+    const tournamentsWithTeamCount = tournaments.map(tournament => ({
+      ...tournament,
+      currentTeams: tournament._count.teams
+    }))
+
+    return NextResponse.json(tournamentsWithTeamCount)
   } catch (error) {
     console.error('Error fetching public tournaments:', error)
     return NextResponse.json(
