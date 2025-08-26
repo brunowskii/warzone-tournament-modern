@@ -6,19 +6,22 @@ const prisma = new PrismaClient()
 async function main() {
   console.log('🌱 Starting database seed...')
 
-  // Create owner user from environment variables
-  const ownerEmail = process.env.OWNER_EMAIL || 'admin@warzone-tournament.com'
-  const ownerPassword = process.env.OWNER_PASSWORD || 'admin123'
+  // Owner account configuration
+  const ownerEmail = process.env.OWNER_EMAIL || 'chahbouni.badr@outlook.com'
+  const ownerPassword = process.env.OWNER_PASSWORD || 'Veronapressanac5!'
   
+  // Hash the password
   const hashedPassword = await hash(ownerPassword, 12)
   
+  // Upsert owner user and store hashed password
   const owner = await prisma.user.upsert({
     where: { email: ownerEmail },
-    update: {},
+    update: { password: hashedPassword }, // updates password if user exists
     create: {
       email: ownerEmail,
       name: 'System Owner',
       role: 'OWNER',
+      password: hashedPassword,
     },
   })
 

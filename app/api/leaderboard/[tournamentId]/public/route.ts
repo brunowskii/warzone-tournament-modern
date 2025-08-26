@@ -8,7 +8,7 @@ export async function GET(
   try {
     const { tournamentId } = params
 
-    // Get tournament details
+    // Find tournament by ID or code
     const tournament = await prisma.tournament.findFirst({
       where: {
         OR: [
@@ -21,7 +21,8 @@ export async function GET(
         name: true,
         code: true,
         countedMatches: true,
-        scoringProfile: true
+        scoringProfile: true,
+        topFraggerEnabled: true
       }
     })
 
@@ -32,20 +33,17 @@ export async function GET(
       )
     }
 
-    // Get all teams for this tournament
+    // Get all teams with their matches
     const teams = await prisma.team.findMany({
       where: { tournamentId: tournament.id },
-      select: {
-        id: true,
-        name: true,
-        code: true,
+      include: {
         matches: {
           where: { status: 'APPROVED' },
           select: {
-            score: true,
-            createdAt: true
-          },
-          orderBy: { score: 'desc' }
+            position: true,
+            kills: true,
+            score: true
+          }
         },
         scoreAdjustments: {
           select: {
@@ -55,13 +53,16 @@ export async function GET(
       }
     })
 
-    // Calculate team scores
-    const teamScores = teams.map(team => {
-      const bestScores = team.matches
-        .slice(0, tournament.countedMatches)
-        .map(match => match.score)
-      
-      const totalScore = bestScores.reduce((sum, score) => sum + score, 0)
+    // Calculate scores for each team
+    const scoringProfile = tournament.scoringProfile as any
+    const countedMatches = tournament.countedMatches
+
+    const leaderboard = teams.map(team => {
+      const bestMatches = team.matches
+        .sort((a, b) => b.score - a.score)
+        .slice(0, countedMatches)
+
+      const totalScore = bestMatches.reduce((sum, match) => sum + match.score, 0)
       const adjustmentTotal = team.scoreAdjustments.reduce((sum, adj) => sum + adj.amount, 0)
       const finalScore = totalScore + adjustmentTotal
 
@@ -69,25 +70,24 @@ export async function GET(
         id: team.id,
         name: team.name,
         code: team.code,
-        totalScore: finalScore,
+        totalScore,
+        adjustmentTotal,
+        finalScore,
         matchesPlayed: team.matches.length,
-        bestScores: bestScores
+        bestMatches: bestMatches.length
       }
     })
 
-    // Sort by total score (descending)
-    const sortedTeams = teamScores.sort((a, b) => b.totalScore - a.totalScore)
-
-    // Add rank
-    const leaderboard = sortedTeams.map((team, index) => ({
-      ...team,
-      rank: index + 1
-    }))
+    // Sort by final score and assign ranks
+    leaderboard.sort((a, b) => b.finalScore - a.finalScore)
+    leaderboard.forEach((team, index) => {
+      team.rank = index + 1
+    })
 
     // Get top fragger stats if enabled
-    let topFraggerStats = []
-    if (tournament.scoringProfile?.topFraggerEnabled) {
-      const playerStats = await prisma.playerStat.findMany({
+    let topFraggerStats = null
+    if (tournament.topFraggerEnabled) {
+      topFraggerStats = await prisma.playerStat.findMany({
         where: { tournamentId: tournament.id },
         select: {
           id: true,
@@ -99,8 +99,6 @@ export async function GET(
         orderBy: { totalKills: 'desc' },
         take: 10
       })
-
-      topFraggerStats = playerStats
     }
 
     return NextResponse.json({
