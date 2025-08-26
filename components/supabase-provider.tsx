@@ -30,12 +30,27 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    console.log('SupabaseProvider: Initializing...')
+
     // Get initial session
     const getInitialSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      setSession(session)
-      setUser(session?.user ?? null)
-      setLoading(false)
+      try {
+        console.log('SupabaseProvider: Getting initial session...')
+        const { data: { session }, error } = await supabase.auth.getSession()
+
+        if (error) {
+          console.error('SupabaseProvider: Session error:', error)
+        } else {
+          console.log('SupabaseProvider: Session retrieved:', !!session)
+        }
+
+        setSession(session)
+        setUser(session?.user ?? null)
+        setLoading(false)
+      } catch (error) {
+        console.error('SupabaseProvider: Error getting session:', error)
+        setLoading(false)
+      }
     }
 
     getInitialSession()
@@ -43,6 +58,7 @@ export function SupabaseProvider({ children }: { children: React.ReactNode }) {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('SupabaseProvider: Auth state changed:', event, !!session)
         setSession(session)
         setUser(session?.user ?? null)
         setLoading(false)

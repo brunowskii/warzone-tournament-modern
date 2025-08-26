@@ -9,6 +9,8 @@ import { AuditLog } from './audit-log'
 export function Dashboard() {
   const { user } = useSupabase()
 
+  console.log('Dashboard Debug:', { user })
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -21,8 +23,13 @@ export function Dashboard() {
                 Dashboard
               </h1>
               <p className="text-muted-foreground">
-                Welcome back, {user?.email}
+                Welcome back, {user?.email || 'Guest'}
               </p>
+              <div className="mt-4 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+                <p className="text-blue-400">
+                  🚀 Warzone Tournament System is running successfully!
+                </p>
+              </div>
             </div>
 
             {/* Leaderboard */}
