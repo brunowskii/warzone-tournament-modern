@@ -24,10 +24,6 @@ export async function GET(request: NextRequest) {
         mode: true,
         format: true,
         status: true,
-        startDate: true,
-        startTime: true,
-        totalTeams: true,
-        teamSize: true,
         topFraggerEnabled: true,
         _count: {
           select: {
@@ -36,8 +32,7 @@ export async function GET(request: NextRequest) {
         }
       },
       orderBy: [
-        { status: 'asc' }, // PENDING first, then ACTIVE, then COMPLETED
-        { startDate: 'asc' }
+        { status: 'asc' }
       ]
     })
 
