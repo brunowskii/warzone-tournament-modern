@@ -1,0 +1,95 @@
+// Prisma schema for Vercel deployment. Uses Postgres via DATABASE_URL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Minimal models required by public leaderboard and core flows
+
+model Tournament {
+  id                String   @id @default(cuid())
+  name              String
+  code              String   @unique
+  mode              String
+  format            String
+  status            String
+  topFraggerEnabled Boolean  @default(false)
+  scoringProfile    Json?
+  teams             Team[]
+  playerStats       PlayerStat[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Team {
+  id               String            @id @default(cuid())
+  name             String
+  code             String            @unique
+  tournamentId     String
+  tournament       Tournament        @relation(fields: [tournamentId], references: [id])
+  matches          Match[]
+  scoreAdjustments ScoreAdjustment[]
+  players          Player[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  @@index([tournamentId])
+}
+
+model Match {
+  id          String   @id @default(cuid())
+  teamId      String
+  team        Team     @relation(fields: [teamId], references: [id])
+  status      MatchStatus @default(PENDING)
+  matchNumber Int      @default(1)
+  createdAt   DateTime @default(now())
+
+  @@index([teamId])
+}
+
+enum MatchStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model ScoreAdjustment {
+  id        String   @id @default(cuid())
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id])
+  reason    String?
+  amount    Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([teamId])
+}
+
+model Player {
+  id            String   @id @default(cuid())
+  teamId        String
+  team          Team     @relation(fields: [teamId], references: [id])
+  activisionId  String
+  playerName    String
+  isTeamLeader  Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  @@index([teamId])
+}
+
+model PlayerStat {
+  id            String   @id @default(cuid())
+  tournamentId  String
+  tournament    Tournament @relation(fields: [tournamentId], references: [id])
+  playerId      String?
+  totalKills    Int      @default(0)
+  averageKills  Float    @default(0)
+  createdAt     DateTime @default(now())
+
+  @@index([tournamentId])
+}
+
