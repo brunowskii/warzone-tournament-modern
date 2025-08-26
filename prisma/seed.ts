@@ -47,7 +47,7 @@ async function main() {
         topFraggerEnabled: true,
         overlayTheme: 'ice',
         description: 'The ultimate Warzone competition featuring the best teams from around the world.',
-        prizePool: '$50,000',
+        prizePool: '$250',
         scoringProfile: {
           multipliers: {
             1: 2.0, 2: 1.8, 3: 1.8, 4: 1.6, 5: 1.6, 6: 1.6,
